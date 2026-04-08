@@ -33,11 +33,27 @@ All notable changes to ZKPnote will be documented in this file.
 - Fixed invalid Explorer link showing `/tx/recovered` — now correctly links to PDA address
 - Fixed verify page not scrolling and results not showing
 
+**MCP Server for Claude & AI Agent Integration**
+- Built `@zkpnote/mcp-server` package with 8 tools: `save_note`, `list_notes`, `read_note`, `update_note`, `delete_note`, `list_folders`, `verify_content`, `search_similar`
+- Uses `@modelcontextprotocol/sdk` with stdio transport
+- Derives encryption keys from `ZKPNOTE_SEED_PHRASE` env var — agents interact with your real vault
+- Default API URL: `https://zkpnote.com`
+
+**Welcome Page & Branding**
+- Alpha Testing badge (amber pill with pulsing dot, "Alpha Testing · Devnet")
+- Resource links to Developer Docs, Help & Guides, White Paper, and Releases
+- ZKPnote shield favicon added (replaced default Next.js/Vercel assets)
+
 **Infrastructure**
 - Supabase `proofs` table with trigram indexes for similarity search
 - `search_similar_proofs` PostgreSQL function
 - New `/api/proof` API route (store, verify, search actions)
 - Priority fees (10,000 microLamports) added for devnet/mainnet transactions
+- Replaced in-memory rate limiter with Upstash Redis (`@upstash/ratelimit`) for distributed rate limiting; falls back to in-memory for local dev
+- Marketplace browse now returns paginated results (page/limit/total) with Previous/Next controls
+- Replaced O(N) similarity check with targeted ILIKE queries for marketplace search
+- Solana RPC proxy whitelist — only 11 permitted methods, returns 403 for others
+- `packages/` excluded from Next.js TypeScript build (`tsconfig.json`)
 
 ## v0.2.0 — 2026-04-07
 
