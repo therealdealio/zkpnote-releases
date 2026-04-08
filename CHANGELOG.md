@@ -51,6 +51,13 @@ All notable changes to ZKPnote will be documented in this file.
 - Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
 - Rate limiting on all API endpoints
 
+### Landing Page
+- New "Access Anywhere" feature pillar — cross-platform access with just a seed phrase and internet connection
+- Removed "Verified Identity" pillar (not yet implemented)
+- New shield + Z logo replacing generic document icon across the app
+- "Zero-Knowledge Proof" label added under brand name
+- Updated tagline: "Your Ideas · Your Proof · Your Market"
+
 ## v0.1.0 — 2026-04-06
 
 ### Initial Release
