@@ -2,6 +2,55 @@
 
 All notable changes to ZKPnote will be documented in this file.
 
+## v0.2.0 — 2026-04-07
+
+**Backend Migration**
+- Migrated all API routes (vault, marketplace, share) from filesystem storage to Supabase
+- Solana wallet address now stored alongside auth keypair in vault records
+
+**Rich Text Editor**
+- New WYSIWYG rich text editing mode powered by Tiptap
+- Toggle between Markdown and Rich Text modes (persisted preference)
+- Full formatting toolbar: headings, bold, italic, underline, strikethrough, highlight, lists, blockquote, code blocks, links, text alignment, undo/redo
+- Notes stored as markdown internally — fully compatible with existing notes and marketplace
+
+**Editor Improvements**
+- Dark/light theme toggle for the editor area (sidebar stays dark)
+- Light mode CSS for markdown preview and rich text editor
+- Theme preference persisted to localStorage
+
+**Sharing & Sending**
+- Separated "Share" (read-only link) and "Send" (wallet-to-wallet delivery) into distinct features
+- Share generates a read-only link with optional NDA
+- Send delivers a copy to a specific Solana wallet address
+- Auth signature now required for share creation
+
+**Import/Export**
+- Import markdown (.md) files directly as notes
+- Import multiple files at once
+- Export individual notes as .md files
+- Export all notes as individual .md files
+- Existing JSON vault backup import/export preserved
+
+**Marketplace**
+- Listing previews now render full markdown instead of raw text
+- Sticky bottom buy bar for long listings
+- Inline transaction confirmation with fee breakdown
+- Repeatable purchases (buy button stays accessible after purchase)
+- HTML rendering support via rehype-raw
+
+**Branding**
+- New logo: shield + Z mark representing protection and zero-knowledge proof
+- "Zero-Knowledge Proof" label on landing page
+- Renamed from ChainNotes to ZKPnote across exports
+
+**Infrastructure**
+- Deployed to Vercel (zkpnote.vercel.app)
+- Supabase for persistent storage
+- Solana devnet for blockchain operations
+- Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
+- Rate limiting on all API endpoints
+
 ## v0.1.0 — 2026-04-06
 
 ### Initial Release
