@@ -2,6 +2,43 @@
 
 All notable changes to ZKPnote will be documented in this file.
 
+## v0.3.0 — 2026-04-08
+
+**Per-Note Proof of Originality (Major)**
+- Complete smart contract redesign: vault-level hashing replaced with per-note SHA-256 proof of originality
+- New on-chain program `zkpnote` (renamed from `chainnotes_vault`) deployed to devnet
+- New program ID: `Ad67RwgTaeh77UQ5oZXAwt3fTvg3u5oNxNfcc3tGJLbc`
+- `register_proof` instruction — stores SHA-256(title + content) in a PDA seeded by the hash
+- First-to-register wins — if the PDA already exists, no one else can claim that content
+- Prove button (purple shield) in note editor toolbar, turns green when proved
+- Proof result banner with Solana Explorer link after proving
+- Green shield icon next to proved notes in sidebar
+
+**Public Verification Page**
+- New `/verify` page — anyone can paste content and check if it's been proved on Solana
+- Client-side SHA-256 hashing (nothing sent to servers until verify clicked)
+- Exact match lookup via Supabase `proofs` table
+- Fuzzy similarity search via PostgreSQL `pg_trgm` extension
+- Full timestamps with seconds shown on verification results
+- Verify links added to marketplace nav bar and sidebar
+
+**Phantom Wallet Session Persistence**
+- Phantom `signMessage` signature cached in sessionStorage
+- No more Phantom popup or logout on page refresh
+- Session survives browser refresh while tab is open
+
+**Bug Fixes**
+- Fixed proof data (proofTx, proofHash, purchasedFrom) being silently dropped during encrypt/decrypt cycle
+- Fixed proof recovery when proof exists on-chain but local data was lost
+- Fixed invalid Explorer link showing `/tx/recovered` — now correctly links to PDA address
+- Fixed verify page not scrolling and results not showing
+
+**Infrastructure**
+- Supabase `proofs` table with trigram indexes for similarity search
+- `search_similar_proofs` PostgreSQL function
+- New `/api/proof` API route (store, verify, search actions)
+- Priority fees (10,000 microLamports) added for devnet/mainnet transactions
+
 ## v0.2.0 — 2026-04-07
 
 **Backend Migration**
