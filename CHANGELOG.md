@@ -22,12 +22,21 @@ All notable changes to ZKPnote will be documented in this file.
 - Full timestamps with seconds shown on verification results
 - Verify links added to marketplace nav bar and sidebar
 
-**Phantom Wallet Session Persistence**
-- Phantom `signMessage` signature cached in sessionStorage
-- No more Phantom popup or logout on page refresh
-- Session survives browser refresh while tab is open
+**Unified Wallet & Vault Access**
+- Solana keypair now derived via BIP-44 (`m/44'/501'/0'/0'`) — same address as Phantom and all standard Solana wallets
+- Seed phrase and Phantom login now produce the same encryption key, auth keypair, and vault
+- Log in with 12 words or Phantom and see the same notes — seamless switching between methods
+- Phantom `signMessage` signature cached in sessionStorage — no popup on refresh
+
+**Welcome Page & Branding**
+- Animated electric shield logo on the welcome page (lightning arcs, spark particles, pulsing glow)
+- Alpha Testing badge (amber pill with pulsing dot, "Alpha Testing · Devnet")
+- Resource links to Developer Docs, Help & Guides, White Paper, and Releases
+- Help, Docs, and White Paper links added to sidebar footer
+- ZKPnote shield favicon added (replaced default Next.js/Vercel assets)
 
 **Bug Fixes**
+- Fixed key derivation mismatch: seed phrase mode previously derived a different Solana address and encryption key than Phantom, creating separate vaults for the same wallet
 - Fixed proof data (proofTx, proofHash, purchasedFrom) being silently dropped during encrypt/decrypt cycle
 - Fixed proof recovery when proof exists on-chain but local data was lost
 - Fixed invalid Explorer link showing `/tx/recovered` — now correctly links to PDA address
@@ -38,11 +47,6 @@ All notable changes to ZKPnote will be documented in this file.
 - Uses `@modelcontextprotocol/sdk` with stdio transport
 - Derives encryption keys from `ZKPNOTE_SEED_PHRASE` env var — agents interact with your real vault
 - Default API URL: `https://zkpnote.com`
-
-**Welcome Page & Branding**
-- Alpha Testing badge (amber pill with pulsing dot, "Alpha Testing · Devnet")
-- Resource links to Developer Docs, Help & Guides, White Paper, and Releases
-- ZKPnote shield favicon added (replaced default Next.js/Vercel assets)
 
 **Infrastructure**
 - Supabase `proofs` table with trigram indexes for similarity search
