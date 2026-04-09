@@ -28,11 +28,19 @@ All notable changes to ZKPnote will be documented in this file.
 - Log in with 12 words or Phantom and see the same notes — seamless switching between methods
 - Phantom `signMessage` signature cached in sessionStorage — no popup on refresh
 
+**Marketplace: Proof Required Before Listing**
+- Notes must be proved on-chain before they can be listed on the marketplace
+- Three layers of enforcement: UI alert, client-side validation, and server-side API rejection
+- Establishes provenance before any commercial activity — sellers prove authorship first
+
+**Built-In Documentation Site**
+- New `/docs` route with Obsidian-style sidebar navigation and dark-theme markdown rendering
+- 8 pages: Getting Started, FAQ, Marketplace Guide, Architecture, Smart Contract, Marketplace API, Security, White Paper
+- All sidebar and welcome page links now point to built-in docs instead of GitHub repos
+
 **Welcome Page & Branding**
 - Animated electric shield logo on the welcome page (lightning arcs, spark particles, pulsing glow)
 - Alpha Testing badge (amber pill with pulsing dot, "Alpha Testing · Devnet")
-- Resource links to Developer Docs, Help & Guides, White Paper, and Releases
-- Help, Docs, and White Paper links added to sidebar footer
 - ZKPnote shield favicon added (replaced default Next.js/Vercel assets)
 
 **Bug Fixes**
