@@ -2,6 +2,45 @@
 
 All notable changes to ZKPnote will be documented in this file.
 
+## v0.4.0 — 2026-04-08
+
+**Cancel / Unlist Marketplace Listings**
+- Sellers can now cancel their own marketplace listings via a two-step confirmation flow (Cancel → Confirm)
+- For "original" listings (where the note was removed from the vault at listing time), the note content is automatically restored to the seller's vault upon cancellation
+- Server validates seller ownership before deletion
+
+**Drag-and-Drop Note Reordering**
+- Notes in the sidebar can now be reordered by drag and drop within a folder
+- Six-dot grip handle appears on hover for dragging
+- Purple drop indicator line shows the insertion point
+- Sort order persists via new `sortOrder` field on notes (backward-compatible — null falls back to updatedAt sorting)
+
+**Pop-Out Floating Window**
+- Notes can be popped out into a floating always-on-top window via the toolbar button
+- Uses the Document Picture-in-Picture API (Chrome/Edge) for true always-on-top behavior
+- Falls back to a standard popup window on Safari/Firefox
+- Floating window includes title editing, content editing, and live word count
+- Edits in the floating window sync back to the main vault in real time
+- Auto-closes when switching notes
+
+**Proof Recovery API**
+- New `recover` action on `/api/proof` — retrieves full note content from a proof's tx signature (owner-only)
+- New `list` action on `/api/proof` — lists all proofs for a given wallet address
+- Enables recovery of note content even if the local vault copy is lost
+
+**Proof-Based Similarity Detection**
+- New 90% similarity threshold for on-chain proved content — blocks marketplace listings that are too similar to other authors' proved notes, even if that content was never listed for sale
+- Existing marketplace similarity check remains at 70%
+- Fixed: same-seller content was incorrectly bypassing similarity checks
+- Fixed: short content (few words) was bypassing similarity entirely due to ILIKE pre-filter thresholds
+
+**MCP Server**
+- Fixed `sortOrder` not being preserved through encrypt/decrypt cycle — MCP vault pushes no longer strip drag-and-drop ordering from notes
+
+**UI / UX**
+- Added @zkpnote X (Twitter) follow link to welcome page footer
+- Fixed welcome page not scrolling on smaller viewports
+
 ## v0.3.0 — 2026-04-08
 
 **Per-Note Proof of Originality (Major)**
