@@ -2,6 +2,63 @@
 
 All notable changes to ZKPnote will be documented in this file.
 
+## v0.6.0 — 2026-04-13
+
+**Vault Search**
+- New search bar in the sidebar below the Notes header — filter notes by title or content in real time
+- Case-insensitive matching across note titles and body content
+- When searching, folder tree flattens to show all matching notes regardless of folder
+- Clear button (X) to reset search; empty search restores normal folder view
+
+**Bug Report System**
+- Replaced nodemailer-based bug reporting with Supabase `bug_reports` table
+- "Report a Bug" button in sidebar footer with modal textarea
+- Sends wallet, username, user agent, and URL alongside user description
+- Rate limited: 50/hour/IP
+
+**Admin Panel — Bug Reports Tab**
+- New Bug Reports tab alongside existing Accounts tab
+- Table with time, user, action, error, status columns
+- Expandable rows with full details (wallet click-to-copy, mode, URL, IP, UA)
+- Resolve button per open bug; red badge shows open count
+- Auto-refresh every 30 seconds
+
+**Knowledge Graph Query Improvements**
+- Scoring rewrite: title matches weighted 3× vs body 1×
+- Minimum score threshold based on query term count
+- Results capped at 10; dropped per-entry tags for compactness
+- Token efficiency stats on MCP tool responses
+
+**Wallet Bar**
+- Added "Faucet" button linking to faucet.solana.com (devnet only, hidden on mainnet)
+
+## v0.5.0 — 2026-04-10
+
+**Wallet Account Tracking**
+- Every wallet that unlocks ZKPnote — Phantom or seed phrase — is now auto-registered in the `accounts` table with a deterministic `SHA-256(wallet_address)`-derived username (`phantom_<hash>` or `user_<hash>`)
+- Admin page now shows Phantom wallets and any account without an email, not just fully linked accounts
+- One-shot backfill migration populates tracking rows for every existing vault (`supabase-migration-backfill-tracking.sql`)
+- `encrypted_seed` column in `accounts` is now nullable so Phantom users can register without storing a seed phrase server-side
+
+**Link Account for Phantom**
+- Phantom users can now open **Profile → Link Account** to reserve a custom username + optional email without providing any seed phrase (previously required a seed)
+- Profile modal pre-fills the email from the linked account when the vault profile has no email stored
+- Removed the Change Password UI for Phantom-only accounts (there is no server-stored seed to re-encrypt)
+
+**Share Link: Inline Sign-Up**
+- Share link sign-up form now collects **username + email + password + verify password** (previously only email + password) and registers a real account via `/api/account`
+- Readers who sign up via a share link can immediately log back in with their chosen username and password on the main app
+- Removed the confusing "Create Your Own Vault" footer button from the shared-note reveal view — readers already have a wallet by the time they see the content
+
+**Email Delivery**
+- `/api/seed-token` now supports generic SMTP (e.g. Namecheap Private Email) via `SMTP_HOST` / `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM` environment variables, with Gmail as an automatic fallback
+- Lets production deploys send recovery emails from a branded address (e.g. `admin@zkpnote.com`) without relying on a personal Gmail
+
+**MCP Server: Batch Save**
+- New `save_notes` batch tool — save many markdown notes in a single call (one vault pull + one push for the whole set), much faster than repeated `save_note` calls
+- Added a `run.sh` wrapper that rebuilds the MCP server before executing, preventing stale builds from overriding features like tombstone merge
+- Tool total is now **16** (up from 15)
+
 ## v0.4.0 — 2026-04-08
 
 **Cancel / Unlist Marketplace Listings**
