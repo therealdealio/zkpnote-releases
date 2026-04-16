@@ -2,6 +2,46 @@
 
 All notable changes to ZKPnote will be documented in this file.
 
+## ZKPnote Desktop 0.0.2 — 2026-04-16 (public beta)
+
+**Native macOS app** — Tauri-based desktop client that works offline and syncs with your web vault. Apple Silicon only for now; Windows and Linux builds coming.
+
+**Download:** [ZKPnote_0.0.2_aarch64.dmg](https://zkpnote.com/downloads/ZKPnote_0.0.2_aarch64.dmg) · ~9.2 MB
+
+**SHA-256:** `897f10a6fec4eb4471bcd5ab5d4ac497cee448c9e5b063b75baaa342938f9a84`
+
+**Install guide:** https://zkpnote.com/download
+
+### Beta disclaimer
+
+This build is **not yet code-signed with an Apple Developer ID**, so macOS will show a "cannot be opened" warning the first time. Right-click the app → Open → confirm. After the first run, it opens normally. See the install guide for details.
+
+### Features at first release
+
+- Local-first encrypted vault (SQLCipher) with Solana-seed key derivation identical to the web app
+- Offline editing; syncs with zkpnote.com on demand or on an interval
+- Nested folders, tags, drag-reorder siblings, favorites
+- Pin notes, soft-delete trash with Undo, daily notes (⌘⇧D), templates (⌘⇧N)
+- Command palette (⌘⇧P), quick capture (⌘⇧Space global), cheat sheet (⌘/)
+- Find in note (⌘F), breadcrumbs, backlinks, wikilink autocomplete, hover previews
+- Graph view with edge-type legend, search filter, color-by-tag or folder
+- Slash commands (`/` in markdown), auto-pair brackets, list/quote continuation
+- Cursor position + reading-time estimate in status bar
+- History diff (side-by-side revision compare with LCS line alignment)
+- Single progressive "Prove on Solana" button with auto-refresh on tab focus
+- System theme (follows macOS light/dark live)
+- Tab persistence across relaunch, status-bar/sidebar toggles
+- Reduce Motion accessibility support
+- 26 backend cargo tests passing (crypto, storage, history replay, trash, pins, folders)
+
+### Known rough edges
+
+- Not signed → one-time Gatekeeper warning per download
+- Images in notes saved before 2026-04-16 may show as filename text instead of the image (a CSP bug, now fixed). Re-attach to repair.
+- Screen Recording permission may prompt each launch (disappears once signed)
+
+---
+
 ## v0.8.0 — 2026-04-16
 
 **Web UX Overhaul** — major batch covering everything shipped 2026-04-14 → 2026-04-16, bringing the web app to parity with the desktop app and beyond.
