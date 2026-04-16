@@ -2,6 +2,31 @@
 
 All notable changes to ZKPnote will be documented in this file.
 
+## v0.7.0 — 2026-04-16
+
+**Remote MCP Endpoint — Claude Mobile + claude.ai Web**
+
+- New Next.js route at `/api/mcp` exposing a remote HTTP MCP transport (`WebStandardStreamableHTTPServerTransport` from `@modelcontextprotocol/sdk`) so Claude mobile (iOS / Android) and claude.ai on the web can connect to ZKPnote as a custom connector — previously blocked because both clients only support remote, not stdio, MCP servers.
+- Tool handlers factored into `src/lib/mcpServer.ts` as `buildMcpServer({ seedPhrase, apiUrl })`, shared by the remote HTTP route. The existing stdio server in `packages/mcp-server/` is untouched and Claude Desktop / VSCode configs keep working unchanged.
+- Crypto envelope is byte-identical between stdio and remote (BIP-44 `m/44'/501'/0'/0'` → deterministic signature of `"ChainNotes-vault-encryption-key-v1"` → first 32 bytes encryption key, last 32 bytes auth keypair). A note written from Claude mobile is the same ciphertext as one written from Desktop or the web UI.
+- **Remote exposes 15 tools** — the full vault + proofs + knowledge-graph surface plus `browse_marketplace`. The three marketplace-detail tools (`get_listing`, `cancel_listing`, `marketplace_analytics`) remain stdio-only for this release.
+- **Auth:** bearer-token gate (`Authorization: Bearer <ZKPNOTE_MCP_TOKEN>` or `?token=<...>` query param for mobile clients that can't set headers). Fail-closed: missing env var returns HTTP 500 rather than silently accepting anonymous requests.
+- **Current deployment model:** single-tenant — one seed phrase + one shared-secret token per Vercel deployment. Multi-tenant per-user auth is the next roadmap item.
+- **Endpoint URL is `https://www.zkpnote.com/api/mcp`** — always with `www.`. The bare `zkpnote.com` 307-redirects to `www`, and most HTTP clients drop `Authorization` across redirects.
+
+**End-to-End Bot Test**
+
+- New `scripts/test-mcp-bot.mjs` — 26 assertions exercising tool discovery, full CRUD cycle, batch save, folder creation, knowledge-graph discovery, and cleanup. Marker-isolated so the bot leaves the vault in its original state.
+- Supports `VERCEL_BYPASS` env var to forward `x-vercel-protection-bypass` headers against preview deploys gated by Vercel Deployment Protection.
+
+**Documentation**
+
+- MCP Setup page rewritten with Option A (stdio) / Option B (remote) structure, self-hosting walkthrough, and Claude mobile + claude.ai connector steps.
+- Architecture page now documents both transports side-by-side with a per-tool availability matrix.
+- FAQ adds "Can I use ZKPnote with Claude on my phone?" plus the `www.` vs apex-domain gotcha.
+- Security page adds a Remote MCP Endpoint section covering the bearer-token model, threat matrix additions, and what's not yet implemented (per-user auth, MCP-route rate limiting, audit log).
+- Public `zkpnote-docs/mcp-server.md` and `zkpnote-help/mcp-setup.md` synced to match.
+
 ## v0.6.0 — 2026-04-13
 
 **Vault Search**
