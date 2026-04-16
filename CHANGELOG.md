@@ -2,6 +2,85 @@
 
 All notable changes to ZKPnote will be documented in this file.
 
+## v0.8.0 — 2026-04-16
+
+**Web UX Overhaul** — major batch covering everything shipped 2026-04-14 → 2026-04-16, bringing the web app to parity with the desktop app and beyond.
+
+### New — Discoverability & Navigation
+
+- **Command palette (⌘K)** — unified launcher. Fuzzy filter notes by title or tag, run actions (New note, Quick capture, Prove, Sync, Toggle focus, Show shortcuts).
+- **Cheat sheet (⌘/)** — overlay listing every keyboard shortcut, grouped.
+- **Quick capture (⌘⇧N)** — modal for dumping a thought without leaving your current note. ⌘⏎ saves.
+- **Tab bar** — multi-note editing. Drag to reorder, ⌘W close, ⌘⇧T reopen, ⌘1–9 jump, middle-click close. Persists across reload.
+- **Status bar** — bottom strip showing lock state, sync age (click to force sync), on-chain proof, word count. Hover labels for plain-language explanations.
+- **Breadcrumbs** above the title show the folder chain.
+- **Sidebar Folders / Tags toggle** — flip between folder tree and a tag-grouped view.
+
+### New — Editor
+
+- **Find in note (⌘F)** — overlay with yellow highlights for all matches, orange ring for the active one. Enter cycles forward, Shift+Enter back, scroll-safe.
+- **Wikilink autocomplete** — type `[[` and pick from a fuzzy dropdown of note titles.
+- **Wikilink hover preview** — hover any rendered `[[link]]` for a 280ms popover with the target's title, tags, and first 400 characters. Click to jump.
+- **Backlinks panel** — every note that links to the current one, plus every outgoing link.
+- **Focus mode (⌘.)** — collapse all chrome. Esc or Mode ▾ → Default to restore.
+- **Typewriter mode (⌥⌘T)** — caret stays vertically centered as you scroll.
+- **Mode ▾ dropdown** in toolbar — visible switcher so focus mode is never a one-way trap.
+- **Inline image paste** — paste any image (or use the toolbar button). Stored as an encrypted attachment in your vault, referenced with a short `zkp-attach:<id>` URL instead of a 100KB base64 blob.
+- **Tiptap rich-text mode** now supports tables, images, and `[[wikilinks]]`. Round-trip with markdown preserves all of them, including GFM pipe-table syntax.
+- **History panel** — auto-saves a revision every 10 seconds while you edit (last 50 per note). View any rev, restore with confirm. Local-only.
+- **Save indicator** — Saving… / Saved / Save error in the meta bar.
+- **Auto-theme** on first load follows your OS `prefers-color-scheme`.
+- **⌘⏎** in the editor proves the active note on Solana.
+
+### New — Sidebar
+
+- **Multi-select** — click Select, check notes via Cmd-click or Shift-click range, then bulk **Export .md** (downloads a single zip of markdown files) or **Delete**.
+
+### New — Settings (⌘⇧,)
+
+- Theme (follow system / dark / light)
+- Auto-sync delay
+- Network info (Solana cluster, your wallet address)
+- Export vault (encrypted JSON or all notes as `.md`)
+- Lock vault
+- Quick reference for all keyboard shortcuts
+
+### New — Mobile
+
+- Sidebar scrolls properly on mobile (was unbounded before).
+- Wallet bar hidden on mobile to reduce clutter.
+- Send / Sell toolbar buttons hidden on narrow viewports (Share stays).
+- Status bar simplified on mobile.
+
+### Improved — Prove flow
+
+- Single progressive button: `Prove on Solana ↗` → `Waiting for Phantom…` → `On-chain ✓`.
+- Auto-refresh on tab focus — switching tabs and back picks up newly finalized proofs.
+- Sell on an unproved note now auto-runs the proof first instead of showing a hostile alert.
+- Toast notifications for success and errors (with Retry).
+
+### Fixed
+
+- React hydration error caused by `<div>` descendants inside markdown `<p>` elements (WikilinkHover now uses `<span>` throughout).
+- Find overlay no longer steals focus from the search input on every keystroke.
+- Find overlay no longer rubber-bands the editor scroll position while you type.
+- Find highlight layer wrap matches the textarea exactly.
+- Skeleton loader now appears during session-recovery reloads, not just first unlock.
+- Settings shortcut moved from ⌘, to ⌘⇧, (Chrome was hijacking ⌘,).
+- Markdown tables no longer get mangled going through Rich text mode and back.
+- Multi-file markdown export bundles into a single .zip (Chrome was silently blocking sequential downloads).
+
+### Infrastructure
+
+- Toast notification system with success / error / info kinds and optional action buttons.
+- Top-level ErrorBoundary — a thrown error from any component now shows a recoverable fallback instead of white-screening.
+- Shared Icon module to consolidate inline SVGs.
+- Skeleton loader during vault unlock / decrypt.
+
+### Testing
+
+- 28-test Playwright bot covering load + hydration, every shortcut, find, image paste (markdown + rich text), table round-trip, mobile layout, and full keyboard interaction with no console errors.
+
 ## v0.7.0 — 2026-04-16
 
 **Remote MCP Endpoint — Claude Mobile + claude.ai Web**
