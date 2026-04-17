@@ -8,7 +8,7 @@ All notable changes to ZKPnote will be documented in this file.
 
 **Download:** [ZKPnote_0.0.2_aarch64.dmg](https://zkpnote.com/downloads/ZKPnote_0.0.2_aarch64.dmg) · ~9.2 MB
 
-**SHA-256:** `68b95db7b44453756c138cec1d877e699b133d6611033233220af5ebd7c727ee`
+**SHA-256:** `a7049f766586990593a5f0e86e61396d1ed5ef9034410eae948d96267a4e476d`
 
 **Install guide:** https://zkpnote.com/download
 
